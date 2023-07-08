@@ -16,8 +16,10 @@ int main(){
 	InitWindow(screenWidth, screenHeight, "Tetris");
 	SetTargetFPS(60);
 
+	srand(time(NULL));
+	// Global Parameters
 	Vector2 GridRatio = {10,20};
-
+	int Scale = 20;
 	
 	//	Main game loop
 	while (!WindowShouldClose()){
@@ -29,7 +31,7 @@ int main(){
 		DrawFPS(10, 10);
 		ClearBackground(BLACK);
 
-		MakeGrid(GridRatio);
+		MakeGrid(GridRatio, Scale);
 
 		EndDrawing();
 
