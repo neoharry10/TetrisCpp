@@ -7,7 +7,7 @@
 // }
 
 
-void MakeGrid(Vector2 ratio, int scale){
+Vector2 MakeGrid(Vector2 ratio, int scale){
 
     //Centering the grid
     Vector2 st = {GetScreenWidth()/2, GetScreenHeight()/2};
@@ -42,4 +42,5 @@ void MakeGrid(Vector2 ratio, int scale){
 
     //Check if a box is in bounds : box.x > st.x && box.x < st.x + ratio.x*scale , *same for y*
 
+    return st;
 }
