@@ -7,7 +7,7 @@
 // }
 
 
-Vector2 MakeGrid(Vector2 ratio, int scale){
+void MakeGrid(Vector2 ratio, int scale){
 
     //Centering the grid
     Vector2 st = {GetScreenWidth()/2, GetScreenHeight()/2};
@@ -40,7 +40,5 @@ Vector2 MakeGrid(Vector2 ratio, int scale){
 
     //So for a given place/square in the grid, its local starting point would be st.x + x*scale, st.y + y*scale
 
-    //Check if a box is in bounds : box.x > st.x && box.x < st.x + ratio.x*scale , *same for y*
-
-    return st;
+    
 }
