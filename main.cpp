@@ -2,14 +2,17 @@
 #include "raylib.h"
 
 #include "logic.h"
-#include "graphics.h"
 
 
 const int screenWidth = 800;
 const int screenHeight = 600;
 
+//Classes globals
 Vector2 GstPos = Vector2{0, 0};
 int Gscale = 0;
+//Classes static
+int Piece::offset = 0;
+
 
 int main(){
 
@@ -18,12 +21,14 @@ int main(){
 	InitWindow(screenWidth, screenHeight, "Tetris");
 	SetTargetFPS(60);
 
+
+
 	//srand(time(NULL));
 	// Global Parameters
 	Vector2 GridRatio = {10,20};
 	int Scale = 20;
+	const int MaxPieces = 200;
 
-	Piece *pc;
 
 	//Get the top left pivot of the grid
 	Vector2 st = {(float)GetScreenWidth()/2, (float)GetScreenHeight()/2};
@@ -35,19 +40,31 @@ int main(){
 	GstPos = st;
 	Gscale = Scale;
 
+	//Centering the spawn point of the pieces
+	Piece::offset = Scale * ((int)(GridRatio.x / 2) - 1);
 
 
-	pc = new Piece[5];
 
-	pc[0] = Piece(L);
-	pc[1] = Piece(T);
-	pc[2] = Piece(I);
-	pc[3] = Piece(S);
-	pc[4] = Piece(X);
+	Grid mainGrid(GridRatio, MaxPieces);
+
+	//Setting the main loop to update every 1 sec
+	float time, prevtime = GetTime();
+	int updTime = 2;
 
 	//	Main game loop
 	while (!WindowShouldClose()){
 
+		time = GetTime();
+		if(time - prevtime >= updTime){
+			prevtime = time;
+
+			//We update the variables here so we have that tetris effect
+			
+			mainGrid.Tick();
+
+	
+			std::cout << "Run \n";
+		}
 		
 		BeginDrawing();
 
@@ -55,18 +72,12 @@ int main(){
 		DrawFPS(10, 10);
 		ClearBackground(BLACK);
 
-
-		for(int i = 0; i < 5; i++){
-			(pc+i)->Draw();
-
-		}
-
-		MakeGrid(GridRatio, Scale);
+		mainGrid.Draw();
 
 		EndDrawing();
 
 	}
-	delete(pc);
+
 
 	return 0;
 }
