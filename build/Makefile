@@ -230,7 +230,6 @@ SOURCES:= $(call rwildcard,$(EXTRA_DIR),*.cpp)
 default: ../$(MAIN) $(SOURCES)
 	$(CC) ../$(MAIN) $(SOURCES) $(CFLAGS) -I $(RAYLIB_INCLUDE_PATH) $(LIB) $(LDLIBS) -o $(EXE_FILE) 
 	@echo "Compiled $(EXE_FILE)"
-	./main.exe
 
 
 
