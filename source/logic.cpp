@@ -132,7 +132,7 @@ Grid::~Grid(){
 void Grid::Draw(){
 
     for(int i = 0; i < ap; i++){
-        cubes[ap]->Draw();
+        cubes[i]->Draw();
     }
 
     int dist = Gscale;
