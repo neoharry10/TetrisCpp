@@ -32,3 +32,6 @@ Updates the graphics given information from logic
 
 Figure out how to handle collisions
 and handle the spawn, move and place loop using the tick
+
+
+SETUP VSCODE IN A WINDOWS ONLY APPROACH 
