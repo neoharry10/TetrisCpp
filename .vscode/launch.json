@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++/GDB build and launch active project",
+            "name": "C++/GDB build and debug active project",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/main.exe",
@@ -25,6 +25,16 @@
                     "ignoreFailures": true
                 }
             ],
+            "preLaunchTask": "make"
+        },
+        {
+            "name": "C++ build and launch active project",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/main.exe",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
             "preLaunchTask": "make"
         }
 

@@ -174,7 +174,7 @@ void Grid::Tick(){
         col = UpdateGrid(*actp);
     }
     else {
-        //actp->Move();
+        actp->Move();
 
         col = UpdateGrid(*actp);
         
