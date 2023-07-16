@@ -28,6 +28,7 @@ public:
     ~Cube();
 
     void Draw();
+    void Move();
 };
 
 //(Piece type) S = square , X is the wiggly type, the others are self explainatory
@@ -54,6 +55,7 @@ public:
      
     Vector2* GetCubes();
     void Draw();
+    void Move();
 };
 
 class Grid {
@@ -68,13 +70,13 @@ class Grid {
     const int MaxPieces;
 
     //Spawned pieces
-	Piece **cubes = new Piece*[MaxPieces];
+	Piece **pieces;
 
     //Active Piece
-    Piece *actp = nullptr;
+    Piece *actp;
 
     //active pieces counter
-	int ap = 0;
+	int ap;
 
 public:
     //Grid();
@@ -84,8 +86,8 @@ public:
     //Spawn a new piece, check for collision, add to score, update map
     void Tick();
     //Adds or removes the given positions of the grid, act == 0 => add / act == 1 => remove
-    void UpdateGrid(Vector2 pos, int act);
+    bool UpdateGrid(Vector2 pos, int act);
     //Update the Grid with the given piece
-    void UpdateGrid(Piece p);
+    bool UpdateGrid(Piece p);
     void Draw();
 };

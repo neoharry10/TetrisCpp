@@ -59,8 +59,7 @@ RAYLIB_LIB_PATH       := ../lib
 RAYLIB_LIBTYPE        := STATIC
 
 # Build mode for project: DEBUG or RELEASE
-BUILD_MODE            := DEBUG 
-
+BUILD_MODE            :=DEBUG
 # Use external GLFW library instead of rglfw module
 # USE_EXTERNAL_GLFW     := FALSE
 
@@ -133,7 +132,7 @@ CC := g++
 CFLAGS = -Wall -Wno-missing-braces -Wunused-result -std=c++11
 
 ifeq ($(BUILD_MODE),DEBUG)
-    CFLAGS += -g -D_DEBUG
+    CFLAGS += -g -O0 -D_DEBUG
 else
     CFLAGS += -s -O1
 endif

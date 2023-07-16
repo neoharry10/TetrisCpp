@@ -19,6 +19,11 @@ void Cube::Draw(){
     DrawRectangleV(pos, size, RED);
 }
 
+void Cube::Move(){
+
+    pos.y += Gscale;
+}
+
 //Class Piece
 
 Piece::Piece(): Piece((pType)GetRandomValue(0,4)) {}
@@ -100,9 +105,21 @@ Vector2* Piece::GetCubes(){
     return localPos;
 }
 
+void Piece::Move(){
+
+    for(int i = 0; i < 4; i++){
+        cubes[i].Move();
+    }
+}
+
 //Class Grid
 
 Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
+
+    pieces = new Piece*[MaxPieces];
+    actp = nullptr;
+    ap = 0;
+
     Coords = new int*[(int)ratio.x];
     for (int i = 0; i < ratio.x; i++){
         Coords[i] = new int[(int)ratio.y];
@@ -118,9 +135,9 @@ Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
 Grid::~Grid(){
 
     for (int i = 0; i < ap; i++){
-        delete[] cubes[i];
+        delete[] pieces[i];
     }
-    delete[] cubes;
+    delete[] pieces;
 
 
     for (int i = 0; i < rt.x; ++i) {
@@ -132,7 +149,7 @@ Grid::~Grid(){
 void Grid::Draw(){
 
     for(int i = 0; i < ap; i++){
-        cubes[i]->Draw();
+        pieces[i]->Draw();
     }
 
     int dist = Gscale;
@@ -147,33 +164,38 @@ void Grid::Draw(){
 
 void Grid::Tick(){
 
-
-
+    bool col = false;
     //We spawn a new piece
     if (actp == nullptr){
-        cubes[ap] = new Piece();
-        actp = cubes[ap];
+        pieces[ap] = new Piece();
+        actp = pieces[ap];
         ap += 1;
 
-        UpdateGrid(*actp);
+        col = UpdateGrid(*actp);
     }
     else {
-        std::cout << "WRONG \n";
+        //actp->Move();
+
+        col = UpdateGrid(*actp);
+        
     }
 
+    if(col){
+        actp = nullptr;
+    }
 }
 
-void Grid::UpdateGrid(Vector2 pos, int act){
+bool Grid::UpdateGrid(Vector2 pos, int act){
 
     //int sz = sizeof(pos) / sizeof(pos[0]);
 
-
+    return false;
 }
 
-void Grid::UpdateGrid(Piece p){
+bool Grid::UpdateGrid(Piece p){
 
     Vector2* pos = p.GetCubes();
 
-    std::cout << "TEST:" << pos[0].x << "\n";
-
+    std::cout << "TEST:" << pos[0].y << "\n";
+    return false;
 }
