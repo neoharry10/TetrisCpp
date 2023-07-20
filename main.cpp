@@ -41,15 +41,15 @@ int main(){
 	Gscale = Scale;
 
 	//Centering the spawn point of the pieces
-	Piece::offset = Scale * ((int)(GridRatio.x / 2) - 1);
-
+	Piece::offset = ((int)(GridRatio.x / 2) - 1);
+	//std::cout << "offset:" << Piece::offset << "\n"; 
 
 
 	Grid mainGrid(GridRatio, MaxPieces);
 
 	//Setting the main loop to update every 1 sec
 	float time, prevtime = GetTime();
-	int updTime = 2;
+	int updTime = 1;
 
 	//	Main game loop
 	while (!WindowShouldClose()){
@@ -58,16 +58,13 @@ int main(){
 		if(time - prevtime >= updTime){
 			prevtime = time;
 
-			//We update the variables here so we have that tetris effect
-			
+			//Every updTime the piece falls
 			mainGrid.Tick();
-
-	
-			std::cout << "Run \n";
 		}
 		
-		BeginDrawing();
+		mainGrid.CheckforInputs();
 
+		BeginDrawing();
 		
 		DrawFPS(10, 10);
 		ClearBackground(BLACK);
@@ -75,7 +72,6 @@ int main(){
 		mainGrid.Draw();
 
 		EndDrawing();
-
 	}
 
 

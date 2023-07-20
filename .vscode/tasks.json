@@ -2,18 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-            "label": "build.bat",
-            "type": "shell",
-            "command": "${workspaceFolder}\\build\\build.bat",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always"
-            }
-        },
-		{
             "label": "make",
             "type": "shell",
             "command": "mingw32-make",

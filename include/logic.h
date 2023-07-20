@@ -4,6 +4,14 @@
 extern int Gscale; 
 extern Vector2 GstPos;
 
+//Local and Global depend on the globals Gscale and GstPos
+//Given a raylib-real pos, it returns the local coord  / GlobalToLocal
+//returns -1 if out of bounds
+Vector2 GetLocalPos(Vector2 globalpos);
+
+//Given the local coord, it returns the raylib coord pos / LocalToGlobal
+//returns -1 if out of bounds
+Vector2 GetGlobalPos(Vector2 localpos);
 
 /*
 class Drawable {
@@ -29,6 +37,9 @@ public:
 
     void Draw();
     void Move();
+    //void FastMove();
+    void Left();
+    void Right();
 };
 
 //(Piece type) S = square , X is the wiggly type, the others are self explainatory
@@ -55,13 +66,26 @@ public:
      
     Vector2* GetCubes();
     void Draw();
+
+    // Moves the piece Down, happens every sec / updTime
     void Move();
+
+    //NOT USED
+    // Moves the piece down fast when s/down is pressed
+    //void FastMove();
+
+    // Left arrow click
+    void Left();
+
+    // Right arrow click
+    void Right();
 };
 
 class Grid {
     //ratio
     Vector2 rt;
 
+    //rt.x * rt.y
     //0 if there is a block in a x,y place. 1 else
     int** Coords;
 
@@ -78,16 +102,33 @@ class Grid {
     //active pieces counter
 	int ap;
 
+    // used for the Down input 
+    int tmp;
+
 public:
     //Grid();
     Grid(Vector2 ratio, int mx); 
     ~Grid();
 
-    //Spawn a new piece, check for collision, add to score, update map
+    //Spawn a new piece, check for collision, add to score, update coords
     void Tick();
-    //Adds or removes the given positions of the grid, act == 0 => add / act == 1 => remove
-    bool UpdateGrid(Vector2 pos, int act);
-    //Update the Grid with the given piece
-    bool UpdateGrid(Piece p);
     void Draw();
+
+    //NOT USED YET
+    //Adds or removes the given positions of the grid, act == 0 => add / act == 1 => remove
+    //bool UpdateGrid(Vector2 pos, int act);
+
+    //Update the Grid with the given piece
+    void UpdateGrid(Piece p);
+
+    //Checks if the piece down collides
+    bool CheckforCol(Piece p); 
+    
+    //Handles the left, right and down button presses
+    void CheckforInputs();
+
+    //Doesnt allow the piece to move left/right out of the grid 
+    bool CheckforBoundsL(Piece p);
+    bool CheckforBoundsR(Piece p);
+
 };

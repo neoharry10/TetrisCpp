@@ -2,9 +2,6 @@
 
 ## Structure 
 
-Two core files, logic.cpp, graphics.cpp
-Each is called in main.cpp inside a game loop in the order logic->graphics
-
 - logic.cpp
 
 
@@ -12,26 +9,40 @@ Input
 Collisions (Check if a box is in bounds : box.x > st.x && box.x < st.x + ratio.x*scale , *same for y*)
 Game states
 
-- graphics.cpp
+- Main loop 
 
-Updates the graphics given information from logic
+I update the 'logic' every 1.5 secs from the tick function in the grid
+
+- Coordinate system and positions
+
+The coords in the grid is a 2d int array, ratio.x * ratio.y
+
+* GstPos (GLOBAL init in main), which is the top-left anchor of the grid.
+* Gscale (GLOBAL init in main), is the length of each 'box' in the grid. (Increasing the scale will make the grid larger)
+* Offset (Piece specific), is the length from top-left to the middle, from there spawns each piece 
 
 ## TODO 
 
--> Merge testing into main
+-> Inputs
+-> Rotation
+-> Movement
+-> Speed up button
 
--> pieces
-
--> tick
+-> Game Over screen 
 
 -> score
 
--> Make a super class called drawable, with specs for a Draw function. Every drawable's Draw will be called from the main game loop every frame. It will be its class' job to decide when to draw.
+
 
 ## Doing
 
-Figure out how to handle collisions
-and handle the spawn, move and place loop using the tick
+Move left and right with the arrow keys 
 
 
-SETUP VSCODE IN A WINDOWS ONLY APPROACH 
+## ERRORS 
+
+
+
+## Check Out 
+
+-> is UpdateGrid == this->UpdateGrid
