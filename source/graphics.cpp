@@ -10,7 +10,7 @@
 void MakeGrid(Vector2 ratio, int scale){
 
     //Centering the grid
-    Vector2 st = {GetScreenWidth()/2, GetScreenHeight()/2};
+    Vector2 st; //= {GetScreenWidth()/2, GetScreenHeight()/2};
     Vector2 nst = {(ratio.x*scale)/2, (ratio.y*scale)/2};
 
     st.x = st.x - nst.x;

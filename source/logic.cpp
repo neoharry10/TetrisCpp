@@ -13,6 +13,14 @@ Cube::Cube(Vector2 st, Vector2 sz) : pos(st), size(sz), cl(RED) {}
 Cube::~Cube() {
 }
 
+void Cube::SetPos(Vector2 ps){
+    pos = ps;
+}
+
+Vector2 Cube::GetPos(){
+    return pos;
+}
+
 void Cube::Draw(){
 
     //if(!tmpPos || tmpPos != pos)
@@ -40,7 +48,7 @@ void Cube::Right(){
 Piece::Piece(): Piece((pType)GetRandomValue(0,4)) {}
 Piece::Piece(pType p){
     type = p;
-
+    rotSt = 0;
     //Spawn points 
     Vector2 sps[4];
     
@@ -80,21 +88,14 @@ Piece::Piece(pType p){
     default:
         break;
     }
-
-    for(int i = 0; i < 4; i++){
-        localPos[i] = sps[i];
-        localPos[i].x += offset;
-    }
     
     for (int i = 0; i < 4; i++){
 
         sps[i].x += offset;
 
-
         cubes[i] = Cube(GetGlobalPos(sps[i])); 
     }
     
-    //offset += 5*Gscale;
 }
 
 Piece::~Piece(){
@@ -109,6 +110,13 @@ void Piece::Draw(){
 }
 
 Vector2* Piece::GetCubes(){
+    
+    Vector2* localPos = new Vector2[4];
+
+    for(int i = 0; i < 4; i++){
+        localPos[i] = GetLocalPos(cubes[i].GetPos());
+    }
+
 
     return localPos;
 }
@@ -116,7 +124,6 @@ Vector2* Piece::GetCubes(){
 void Piece::Move(){
 
     for(int i = 0; i < 4; i++){
-        localPos[i].y += 1;
         cubes[i].Move();
     }
 }
@@ -124,7 +131,6 @@ void Piece::Move(){
 void Piece::Left(){
 
     for(int i = 0; i < 4; i++){
-        localPos[i].x -= 1;
         cubes[i].Left();
     }
 }
@@ -132,18 +138,62 @@ void Piece::Left(){
 void Piece::Right(){
 
     for(int i = 0; i < 4; i++){
-        localPos[i].x += 1;
         cubes[i].Right();
     }
 }
 
-// void Piece::FastMove(){
+void Piece::Rotate(){
+    
 
-//     for(int i = 0; i < 4; i++){
-//         localPos[i].y += 1;
-//         cubes[i].Move();
-//     }
-// }
+    Vector2 newpos[4];
+    Vector2 anchor = GetLocalPos(cubes[1].GetPos());
+
+    newpos[0] = Vector2{anchor.x+1,anchor.y+1};
+    newpos[1] = Vector2{anchor.x,anchor.y};
+    newpos[2] = Vector2{anchor.x-1,anchor.y - 1};
+    newpos[3] = Vector2{anchor.x,anchor.y - 2};
+    
+
+    for (int i = 0; i < 4; i++){
+        cubes[i].SetPos(GetGlobalPos(newpos[i]));
+    }
+    /*switch (type){
+    case L:
+        
+    case T:
+
+
+        switch (rotSt)
+        {
+        case 0:
+
+
+            rotSt = 1;
+            break;
+        case 1:
+        case 2:
+        case 3:
+            rotSt = 0;
+        
+        default:
+            break;
+        }
+
+
+        break;
+    case I:
+    case X:
+        
+
+        break;
+    case S:
+        break;
+    default:
+        break;
+    }
+    */
+}
+
 
 //Class Grid
 
@@ -227,9 +277,9 @@ void Grid::Tick(){
 // }
 
 bool Grid::CheckforCol(Piece p){
-    //If I detect a collision in the next pixel I stop. 
-    Vector2* pos = p.GetCubes();
 
+    Vector2* pos = p.GetCubes();
+    
 
     int floorCord = rt.y;
     for(int i = 0; i < 4; i++){
@@ -239,9 +289,12 @@ bool Grid::CheckforCol(Piece p){
         pos[i].y + 1 >= floorCord ){
 
             UpdateGrid(p);
+            delete[] pos;
             return true;
         }
     }
+
+    delete[] pos;
     return false;
 }
 
@@ -252,6 +305,7 @@ void Grid::UpdateGrid(Piece p){
         Coords[(int)pos[i].x][(int)pos[i].y] = 1;
     }
 
+    delete[] pos;
 }
 
 void Grid::CheckforInputs(){
@@ -278,6 +332,12 @@ void Grid::CheckforInputs(){
             if(CheckforBoundsR(*actp))
                 actp->Right();
         }
+
+        if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
+            //MAY NEED TO CHECK FOR COLLISIONS HERE
+
+            actp->Rotate();
+        }
     }
 }
 
@@ -285,10 +345,13 @@ bool Grid::CheckforBoundsL(Piece p){
     Vector2* pos = p.GetCubes();
 
     for(int i = 0; i < 4; i++){
-        if ( pos[i].x -1 < 0 )
+        if ( pos[i].x -1 < 0 ){
+            delete[] pos;
             return false;
+        }
     }
 
+    delete[] pos;
     return true;
 }
 
@@ -296,10 +359,13 @@ bool Grid::CheckforBoundsR(Piece p){
     Vector2* pos = p.GetCubes();
 
     for(int i = 0; i < 4; i++){
-        if ( pos[i].x  +1 >= rt.x )
+        if ( pos[i].x  +1 >= rt.x ){
+            delete[] pos;
             return false;
+        }
     }
 
+    delete[] pos;
     return true;
 }
 

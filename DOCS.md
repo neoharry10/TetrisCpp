@@ -21,22 +21,20 @@ The coords in the grid is a 2d int array, ratio.x * ratio.y
 * Gscale (GLOBAL init in main), is the length of each 'box' in the grid. (Increasing the scale will make the grid larger)
 * Offset (Piece specific), is the length from top-left to the middle, from there spawns each piece 
 
-## TODO 
+## TODO
 
--> Inputs
+
 -> Rotation
--> Movement
--> Speed up button
-
+-> score
 -> Game Over screen 
 
--> score
-
-
+-> Main Menu ?
 
 ## Doing
 
-Move left and right with the arrow keys 
+Rotations, find a way to 'autorotate' the cubes without manually writing every cube cord. maybe with cos/sin
+
+
 
 
 ## ERRORS 
@@ -45,4 +43,3 @@ Move left and right with the arrow keys
 
 ## Check Out 
 
--> is UpdateGrid == this->UpdateGrid

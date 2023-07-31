@@ -35,11 +35,17 @@ public:
     Cube(Vector2 st, Vector2 sz);
     ~Cube();
 
+    //Set global cube position
+    void SetPos(Vector2 pos);
+
+    //Returns the global pos of the cube
+    Vector2 GetPos();
+
     void Draw();
     void Move();
-    //void FastMove();
     void Left();
     void Right();
+
 };
 
 //(Piece type) S = square , X is the wiggly type, the others are self explainatory
@@ -50,10 +56,13 @@ enum pType {
 
 class Piece{
 
+    //Each of the cubes that this piece has
     Cube cubes[4];
-    //The local grid pos of the cubes
-    Vector2 localPos[4];
+
     pType type;
+
+    //The rotation state, used to loop between rotations
+    int rotSt;
 
 public:
     //used to center the pieces in the grid
@@ -63,20 +72,16 @@ public:
     Piece(pType);
     ~Piece();
 
-     
+    //Returns the local position of the pieces' cubes
     Vector2* GetCubes();
+    
     void Draw();
-
     // Moves the piece Down, happens every sec / updTime
     void Move();
-
-    //NOT USED
-    // Moves the piece down fast when s/down is pressed
-    //void FastMove();
-
+    // Up arrow click
+    void Rotate();
     // Left arrow click
     void Left();
-
     // Right arrow click
     void Right();
 };
