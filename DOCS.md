@@ -2,20 +2,18 @@
 
 ## Structure 
 
-- logic.cpp
+- logic.h / logic.cpp
 
-
-Input
-Collisions (Check if a box is in bounds : box.x > st.x && box.x < st.x + ratio.x*scale , *same for y*)
-Game states
+All of the classes, helper functions 
 
 - Main loop 
 
-I update the 'logic' every 1.5 secs from the tick function in the grid
+The tick function, of the grid, is upodated every '1.5' secs to give the tetris effect
 
 - Coordinate system and positions
 
-The coords in the grid is a 2d int array, ratio.x * ratio.y
+The local coords in the grid is a 2d int array, ratio.x * ratio.y, global coords is raylib coords.
+(I have functions to convert between the two: GetLocalPos, GetGlobalPos ) 
 
 * GstPos (GLOBAL init in main), which is the top-left anchor of the grid.
 * Gscale (GLOBAL init in main), is the length of each 'box' in the grid. (Increasing the scale will make the grid larger)
@@ -23,16 +21,12 @@ The coords in the grid is a 2d int array, ratio.x * ratio.y
 
 ## TODO
 
-
--> Rotation
 -> score
 -> Game Over screen 
 
 -> Main Menu ?
 
 ## Doing
-
-Rotations, find a way to 'autorotate' the cubes without manually writing every cube cord. maybe with cos/sin
 
 
 

@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <cmath>
 #include "logic.h"
 
 #include <iostream>
@@ -142,56 +143,52 @@ void Piece::Right(){
     }
 }
 
+
 void Piece::Rotate(){
     
 
-    Vector2 newpos[4];
-    Vector2 anchor = GetLocalPos(cubes[1].GetPos());
-
-    newpos[0] = Vector2{anchor.x+1,anchor.y+1};
-    newpos[1] = Vector2{anchor.x,anchor.y};
-    newpos[2] = Vector2{anchor.x-1,anchor.y - 1};
-    newpos[3] = Vector2{anchor.x,anchor.y - 2};
-    
-
-    for (int i = 0; i < 4; i++){
-        cubes[i].SetPos(GetGlobalPos(newpos[i]));
-    }
-    /*switch (type){
-    case L:
-        
+    switch (type){
+    case L: 
     case T:
-
-
-        switch (rotSt)
-        {
-        case 0:
-
-
-            rotSt = 1;
-            break;
-        case 1:
-        case 2:
-        case 3:
-            rotSt = 0;
-        
-        default:
-            break;
-        }
-
-
-        break;
     case I:
     case X:
-        
+    {
+        Vector2 *sps = GetCubes();
 
+        //Get one of the cubes as anchor to rotate around
+        Vector2 anchor = GetLocalPos(cubes[1].GetPos());
+
+        float angleRad = 90 * PI/180.0f, x, y;
+
+        for (int i = 0; i < 4; i++) {
+
+            sps[i].x -= anchor.x;
+            sps[i].y -= anchor.y; 
+
+            x = sps[i].x;
+            y = sps[i].y;
+
+            sps[i].x = x * cos(angleRad) - y * sin(angleRad);
+            sps[i].y = x * sin(angleRad) + y * cos(angleRad);
+
+
+            sps[i].x += anchor.x;
+            sps[i].y += anchor.y;
+
+            sps[i].x = round(sps[i].x);
+            sps[i].y = round(sps[i].y);
+
+            cubes[i].SetPos(GetGlobalPos(sps[i]));
+
+        }
+        delete[] sps;
+    }
         break;
     case S:
-        break;
     default:
         break;
     }
-    */
+
 }
 
 
