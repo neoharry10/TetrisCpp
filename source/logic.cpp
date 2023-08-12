@@ -25,7 +25,9 @@ Vector2 Cube::GetPos(){
 void Cube::Draw(){
 
     //if(!tmpPos || tmpPos != pos)
-    if(active) DrawRectangleV(pos, size, RED);
+    if(active){ 
+        DrawRectangleV(pos, size, cl);
+    }
 }
 
 void Cube::Move(){
@@ -47,7 +49,7 @@ void Cube::Destroy(){
 
     //SetPos(Vector2{800,600});
     active = 0;
-    //this->~Cube();
+    this->~Cube();
 }
 
 
@@ -59,6 +61,8 @@ Piece::Piece(pType p){
 
     //Spawn points 
     Vector2 sps[4];
+
+    cubes = new Cube[4];
     
     // I make 'local cords' for the cubes, when drawn they will need to be *scale and + global starting point
     switch (type)
@@ -113,7 +117,9 @@ Piece::~Piece(){
 void Piece::Draw(){
 
     for (int i = 0; i < 4; i++){
-        cubes[i].Draw();
+        if(&cubes[i]){
+            cubes[i].Draw();
+        }
     }
 }
 
@@ -122,7 +128,12 @@ Vector2* Piece::GetCubes(){
     Vector2* localPos = new Vector2[4];
 
     for(int i = 0; i < 4; i++){
-        localPos[i] = GetLocalPos(cubes[i].GetPos());
+        if(&cubes[i]){
+            localPos[i] = GetLocalPos(cubes[i].GetPos());
+        }
+        else{
+            localPos[i] = Vector2{-1,-1};
+        }
     }
 
 
@@ -151,7 +162,7 @@ void Piece::Right(){
 }
 
 Cube* Piece::GetCube(int i){
-    return &cubes[i];
+    return cubes+i;
 }
 
 void Piece::Rotate(){
@@ -282,26 +293,17 @@ void Grid::Draw(){
 
 void Grid::Tick(){
 
-    bool col = false;
-
     //We spawn a new piece
-    if (actp == nullptr){
+    if (col){
         pieces[ap] = new Piece();
         actp = pieces[ap];
         ap += 1;
-
-        col = CheckforCol(*actp);
     }
     else {
         actp->Move();
-
-        col = CheckforCol(*actp);
-        CheckforPoints();
     }
-
-    if(col){
-        actp = nullptr;
-    }
+    col = CheckforCol(*actp);
+    CheckforPoints();
 
 }
 
@@ -313,9 +315,9 @@ bool Grid::CheckforCol(Piece p){
 
     int floorCord = rt.y;
     for(int i = 0; i < 4; i++){
-        //Hit other pieces check
+        //Hit other pieces 
         if( Coords[(int)pos[i].x][(int)pos[i].y + 1] ||
-        //Floor check
+        //Hit floor 
         pos[i].y + 1 >= floorCord ){
 
             UpdateGrid(p);
@@ -332,8 +334,11 @@ void Grid::UpdateGrid(Piece p){
     Vector2* pos = p.GetCubes();
 
     for(int i = 0; i < 4; i++){
-        Coords[(int)pos[i].x][(int)pos[i].y] = 1;
-        Ccoords[(int)pos[i].x][(int)pos[i].y] = p.GetCube(i);
+        if(pos[i].x >= 0){ //Check that there is an active cube
+            Coords[(int)pos[i].x][(int)pos[i].y] = 1;
+            Ccoords[(int)pos[i].x][(int)pos[i].y] = p.GetCube(i);
+        }
+
     }
 
     delete[] pos;
@@ -416,9 +421,11 @@ void Grid::CheckforPoints(){
             
             lines++;
             for(int x = 0; x < rt.x; x++){
-                Ccoords[x][y]->Destroy();
                 Coords[x][y] = 0;
+                Ccoords[x][y]->Destroy();
             }
+
+            //Gravity(y);
         }
     }
 
@@ -435,12 +442,43 @@ void Grid::ChangeScore(int l){
 
 } 
 
-// Cube* Grid::GetCube(Vector2 lc){
-//     if(! Coords[(int)lc.x][(int)lc.y])
-//         return NULL;
+void Grid::Gravity(int l){
 
+    Cube* tmp;
     
-// }
+
+    for(int i = 0; i < rt.x; i++){
+        for(int j = l-1; j >= 0; j--){
+            if(Coords[i][j]){
+                Ccoords[i][j]->Move();
+
+                // tmp = Ccoords[i][j];
+
+                // Ccoords[i][j] = NULL;
+                // Coords[i][j] = 0;
+            
+                // Ccoords[i][j+1] = tmp;
+                // Coords[i][j] = 1;
+            }
+        }
+    }
+    
+
+    for(int i = 0; i < rt.x; i++){
+        for(int j = 0; j < rt.y; j++){
+
+            Coords[i][j] = 0;
+            Ccoords[i][j] = NULL;
+
+        }
+    }  
+
+    for(int i = 0; i < ap; i++){
+        UpdateGrid(*pieces[i]);
+    } 
+
+
+}
 
 Vector2 GetLocalPos(Vector2 pos){
 

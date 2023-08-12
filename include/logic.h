@@ -61,7 +61,7 @@ enum pType {
 class Piece{
 
     //Each of the cubes that this piece has
-    Cube cubes[4];
+    Cube* cubes;
 
     pType type;
 public:
@@ -72,7 +72,7 @@ public:
     Piece(pType);
     ~Piece();
 
-    //Returns the local position of the pieces' cubes
+    //Returns the local position of the pieces' cubes, {-1,-1} if the i-th cube doesnt exist
     Vector2* GetCubes();
 
     //Returns a pointer to the i-th cube
@@ -94,13 +94,12 @@ class Grid {
     Vector2 rt;
 
     //rt.x * rt.y
-    //0 if there is a block in a x,y place. 1 else
+    //1 if there is a block in a x,y place. 0 else
     int** Coords;
 
+    // 2d array of cube pointers, we keep the stopped cubes here
     Cube*** Ccoords;
 
-    //Keep which cube is in each coord
-    //Cube** CoordC;
     const int MaxPieces;
 
     //Spawned pieces
@@ -117,6 +116,9 @@ class Grid {
 
     // used for the Down input 
     int tmp;
+
+    // used for the spawning of the pieces
+    bool col;
 
 public:
     //Grid();
@@ -153,4 +155,7 @@ public:
 
     //Adds to score depending on the lines that are filled (1 for 1 line, 2 for 2 , ...)
     void ChangeScore(int);
+
+    //Given the y of the line deleted, it moves the above cubes down
+    void Gravity(int);
 };

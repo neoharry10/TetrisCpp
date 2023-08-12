@@ -46,7 +46,7 @@ MEDIA_DIR := ../resources
 PLATFORM              := PLATFORM_DESKTOP
 
 # Define required raylib variables
-PROJECT_NAME          := Cool shooting game
+PROJECT_NAME          := Tetris
 RAYLIB_VERSION        := 4.0.0
 #RAYLIB_PATH           := ../../../raylib
 
@@ -59,7 +59,7 @@ RAYLIB_LIB_PATH       := ../lib
 RAYLIB_LIBTYPE        := STATIC
 
 # Build mode for project: DEBUG or RELEASE
-BUILD_MODE            :=DEBUG
+BUILD_MODE            := DEBUG
 # Use external GLFW library instead of rglfw module
 # USE_EXTERNAL_GLFW     := FALSE
 
