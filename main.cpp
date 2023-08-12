@@ -17,10 +17,8 @@ int Piece::offset = 0;
 int main(){
 
 	//	Initialization 
-
 	InitWindow(screenWidth, screenHeight, "Tetris");
 	SetTargetFPS(60);
-
 
 
 	//srand(time(NULL));
@@ -40,14 +38,11 @@ int main(){
 	GstPos = st;
 	Gscale = Scale;
 
-	//Centering the spawn point of the pieces
+	//Used for centering the spawn point of the pieces
 	Piece::offset = ((int)(GridRatio.x / 2) - 1);
-	//std::cout << "offset:" << Piece::offset << "\n"; 
-
 
 	Grid mainGrid(GridRatio, MaxPieces);
 
-	//Setting the main loop to update every 1 sec
 	float time, prevtime = GetTime();
 	int updTime = 1;
 

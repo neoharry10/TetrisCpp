@@ -9,7 +9,7 @@
 
 Cube::Cube(){}
 Cube::Cube(Vector2 st) : Cube(st, Vector2{(float)Gscale,(float)Gscale}) {}
-Cube::Cube(Vector2 st, Vector2 sz) : pos(st), size(sz), cl(RED) {}
+Cube::Cube(Vector2 st, Vector2 sz) : pos(st), size(sz), cl(RED), active(1) {}
 
 Cube::~Cube() {
 }
@@ -25,7 +25,7 @@ Vector2 Cube::GetPos(){
 void Cube::Draw(){
 
     //if(!tmpPos || tmpPos != pos)
-    DrawRectangleV(pos, size, RED);
+    if(active) DrawRectangleV(pos, size, RED);
 }
 
 void Cube::Move(){
@@ -43,13 +43,20 @@ void Cube::Right(){
     pos.x += Gscale;
 }
 
+void Cube::Destroy(){
+
+    //SetPos(Vector2{800,600});
+    active = 0;
+    //this->~Cube();
+}
+
 
 //Class Piece
 
 Piece::Piece(): Piece((pType)GetRandomValue(0,4)) {}
 Piece::Piece(pType p){
     type = p;
-    rotSt = 0;
+
     //Spawn points 
     Vector2 sps[4];
     
@@ -143,6 +150,9 @@ void Piece::Right(){
     }
 }
 
+Cube* Piece::GetCube(int i){
+    return &cubes[i];
+}
 
 void Piece::Rotate(){
     
@@ -200,6 +210,7 @@ Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
     actp = nullptr;
     ap = 0;
     tmp = 0;
+    score = 0;
 
     Coords = new int*[(int)ratio.x];
     for (int i = 0; i < ratio.x; i++){
@@ -211,7 +222,20 @@ Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
             Coords[x][y] = 0;
         }
     }
+
+
+    Ccoords = new Cube**[(int)ratio.x];
+    for (int i = 0; i < ratio.x; i++){
+        Ccoords[i] = new Cube*[(int)ratio.y];
+    }
+
+    for (int x = 0; x < ratio.x; x++){
+        for(int y = 0; y < ratio.y; y++){
+            Ccoords[x][y] = NULL;
+        }
+    }
 }
+
 
 Grid::~Grid(){
 
@@ -223,8 +247,10 @@ Grid::~Grid(){
 
     for (int i = 0; i < rt.x; ++i) {
         delete[] Coords[i];
+        delete[] Ccoords[i];
     }
     delete[] Coords;
+    delete[] Ccoords;
 }
 
 void Grid::Draw(){
@@ -259,19 +285,15 @@ void Grid::Tick(){
         actp->Move();
 
         col = CheckforCol(*actp);
+        CheckforPoints();
     }
 
     if(col){
         actp = nullptr;
     }
+
 }
 
-// bool Grid::UpdateGrid(Vector2 pos, int act){
-
-//     //int sz = sizeof(pos) / sizeof(pos[0]);
-
-//     return false;
-// }
 
 bool Grid::CheckforCol(Piece p){
 
@@ -300,6 +322,7 @@ void Grid::UpdateGrid(Piece p){
 
     for(int i = 0; i < 4; i++){
         Coords[(int)pos[i].x][(int)pos[i].y] = 1;
+        Ccoords[(int)pos[i].x][(int)pos[i].y] = p.GetCube(i);
     }
 
     delete[] pos;
@@ -366,6 +389,47 @@ bool Grid::CheckforBoundsR(Piece p){
     return true;
 }
 
+void Grid::CheckforPoints(){
+
+    int lines = 0;
+    bool isFull;
+    for(int y = rt.y -1 ; y >= 0; y--){
+        isFull = true;
+        for(int x = 0; x < rt.x; x++){
+
+            if(!Coords[x][y])
+                isFull = false;
+        }
+
+        if(isFull){
+            
+            lines++;
+            for(int x = 0; x < rt.x; x++){
+                Coords[x][y] = 0;
+                Ccoords[x][y]->Destroy();
+            }
+        }
+    }
+
+    if(lines){
+
+        std::cout << "Lines : " << lines << std::endl;
+        ChangeScore(lines);
+    }
+}
+
+void Grid::ChangeScore(int l){
+
+
+
+} 
+
+// Cube* Grid::GetCube(Vector2 lc){
+//     if(! Coords[(int)lc.x][(int)lc.y])
+//         return NULL;
+
+    
+// }
 
 Vector2 GetLocalPos(Vector2 pos){
 

@@ -30,6 +30,7 @@ class Cube {
     //temp to keep pos, used to check if we need to redraw it or not
     //int tmpPos = 0; 
 public:
+    int active;
     Cube();
     Cube(Vector2 st);
     Cube(Vector2 st, Vector2 sz);
@@ -46,6 +47,8 @@ public:
     void Left();
     void Right();
 
+    void Destroy();
+
 };
 
 //(Piece type) S = square , X is the wiggly type, the others are self explainatory
@@ -60,10 +63,6 @@ class Piece{
     Cube cubes[4];
 
     pType type;
-
-    //The rotation state, used to loop between rotations
-    int rotSt;
-
 public:
     //used to center the pieces in the grid
     static int offset;
@@ -74,6 +73,9 @@ public:
 
     //Returns the local position of the pieces' cubes
     Vector2* GetCubes();
+
+    //Returns a pointer to the i-th cube
+    Cube* GetCube(int);
     
     void Draw();
     // Moves the piece Down, happens every sec / updTime
@@ -94,6 +96,8 @@ class Grid {
     //0 if there is a block in a x,y place. 1 else
     int** Coords;
 
+    Cube*** Ccoords;
+
     //Keep which cube is in each coord
     //Cube** CoordC;
     const int MaxPieces;
@@ -106,6 +110,9 @@ class Grid {
 
     //active pieces counter
 	int ap;
+
+    //the game score
+    int score;
 
     // used for the Down input 
     int tmp;
@@ -126,7 +133,7 @@ public:
     //Update the Grid with the given piece
     void UpdateGrid(Piece p);
 
-    //Checks if the piece down collides
+    //Checks if the piece collides while falling
     bool CheckforCol(Piece p); 
     
     //Handles the left, right and down button presses
@@ -136,4 +143,13 @@ public:
     bool CheckforBoundsL(Piece p);
     bool CheckforBoundsR(Piece p);
 
+    // //Returns a pointer to the cube in the given location(localcoords)
+    // //null if it doesnt exist  
+    // Cube* GetCube(Vector2 localCoord);
+
+    //Checks and deletes lines from the grid
+    void CheckforPoints();
+
+    //Adds to score depending on the lines that are filled (1 for 1 line, 2 for 2 , ...)
+    void ChangeScore(int);
 };

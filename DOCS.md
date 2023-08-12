@@ -8,7 +8,7 @@ All of the classes, helper functions
 
 - Main loop 
 
-The tick function, of the grid, is upodated every '1.5' secs to give the tetris effect
+The tick function, of the grid, is upodated every '1.5'(updTime) secs to give the tetris effect
 
 - Coordinate system and positions
 
@@ -33,6 +33,8 @@ The local coords in the grid is a 2d int array, ratio.x * ratio.y, global coords
 
 ## ERRORS 
 
+- When rotating, pieces can get out of grid and crashes.
+- When the we have one or more full lines it crashes. 
 
 
 ## Check Out 
