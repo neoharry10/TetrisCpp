@@ -452,6 +452,7 @@ void Grid::Gravity(int l){
             if(Coords[i][j]){
                 Ccoords[i][j]->Move();
 
+                //BROKEN
                 // tmp = Ccoords[i][j];
 
                 // Ccoords[i][j] = NULL;
@@ -463,19 +464,19 @@ void Grid::Gravity(int l){
         }
     }
     
+    //REALLY BROKEN
+    // for(int i = 0; i < rt.x; i++){
+    //     for(int j = 0; j < rt.y; j++){
 
-    for(int i = 0; i < rt.x; i++){
-        for(int j = 0; j < rt.y; j++){
+    //         Coords[i][j] = 0;
+    //         Ccoords[i][j] = NULL;
 
-            Coords[i][j] = 0;
-            Ccoords[i][j] = NULL;
+    //     }
+    // }  
 
-        }
-    }  
-
-    for(int i = 0; i < ap; i++){
-        UpdateGrid(*pieces[i]);
-    } 
+    // for(int i = 0; i < ap; i++){
+    //     UpdateGrid(*pieces[i]);
+    // } 
 
 
 }
