@@ -7,8 +7,10 @@
 const int screenWidth = 800;
 const int screenHeight = 600;
 
-//Classes globals
+
+//Classes globals for the active grid
 Vector2 GstPos = Vector2{0, 0};
+Vector2 Gratio = Vector2{0, 0};
 int Gscale = 0;
 //Classes static
 int Piece::offset = 0;
@@ -37,6 +39,7 @@ int main(){
 	//Pass the initial parameters to our classes
 	GstPos = st;
 	Gscale = Scale;
+	Gratio = GridRatio;
 
 	//Used for centering the spawn point of the pieces
 	Piece::offset = ((int)(GridRatio.x / 2) - 1);

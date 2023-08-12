@@ -19,6 +19,12 @@ The local coords in the grid is a 2d int array, ratio.x * ratio.y, global coords
 * Gscale (GLOBAL init in main), is the length of each 'box' in the grid. (Increasing the scale will make the grid larger)
 * Offset (Piece specific), is the length from top-left to the middle, from there spawns each piece 
 
+-- Classes
+- Grid
+
+The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the usable grid places 
+
+
 ## TODO
 
 -> score
@@ -29,11 +35,10 @@ The local coords in the grid is a 2d int array, ratio.x * ratio.y, global coords
 ## Doing
 
 
-
+ 
 
 ## ERRORS 
 
-- When rotating, pieces can get out of grid and crashes.
 - When the we have one or more full lines it crashes. 
 
 

@@ -170,6 +170,9 @@ void Piece::Rotate(){
 
         float angleRad = 90 * PI/180.0f, x, y;
 
+        //Used to check if any point is outside the grid to not apply that rotation
+        bool inBounds = true;
+
         for (int i = 0; i < 4; i++) {
 
             sps[i].x -= anchor.x;
@@ -181,15 +184,23 @@ void Piece::Rotate(){
             sps[i].x = x * cos(angleRad) - y * sin(angleRad);
             sps[i].y = x * sin(angleRad) + y * cos(angleRad);
 
-
             sps[i].x += anchor.x;
             sps[i].y += anchor.y;
 
             sps[i].x = round(sps[i].x);
             sps[i].y = round(sps[i].y);
 
-            cubes[i].SetPos(GetGlobalPos(sps[i]));
+            if(!(sps[i].x >= 0 && sps[i].x < Gratio.x)
+            // Check the sps[i].y for other cubes 
+            ){
+                inBounds = false;
+            }
+        }
 
+        if(inBounds){
+            for(int i = 0; i < 4; i++){
+                cubes[i].SetPos(GetGlobalPos(sps[i]));
+            }
         }
         delete[] sps;
     }
@@ -405,15 +416,15 @@ void Grid::CheckforPoints(){
             
             lines++;
             for(int x = 0; x < rt.x; x++){
-                Coords[x][y] = 0;
                 Ccoords[x][y]->Destroy();
+                Coords[x][y] = 0;
             }
         }
     }
 
     if(lines){
 
-        std::cout << "Lines : " << lines << std::endl;
+        //std::cout << "Lines : " << lines << std::endl;
         ChangeScore(lines);
     }
 }

@@ -3,6 +3,7 @@
 
 extern int Gscale; 
 extern Vector2 GstPos;
+extern Vector2 Gratio;
 
 //Local and Global depend on the globals Gscale and GstPos
 //Given a raylib-real pos, it returns the local coord  / GlobalToLocal
