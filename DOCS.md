@@ -35,12 +35,11 @@ The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the us
 ## Doing
 
 
-- Gravity/Score
+- Score
 
 ## ERRORS 
 
-fixed (- When the we have one or more full lines it crashes. )
-
+- Pieces clash on empty spaces sometimes
 
 
 ## Check Out 

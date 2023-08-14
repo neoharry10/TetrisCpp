@@ -423,9 +423,10 @@ void Grid::CheckforPoints(){
             for(int x = 0; x < rt.x; x++){
                 Coords[x][y] = 0;
                 Ccoords[x][y]->Destroy();
+                Ccoords[x][y] = NULL;
             }
 
-            //Gravity(y);
+            Gravity(y);
         }
     }
 
@@ -447,19 +448,21 @@ void Grid::Gravity(int l){
     Cube* tmp;
     
 
-    for(int i = 0; i < rt.x; i++){
-        for(int j = l-1; j >= 0; j--){
+    for(int j = l; j >= 0; j--){
+        for(int i = 0; i < rt.x; i++){
+
             if(Coords[i][j]){
+
                 Ccoords[i][j]->Move();
 
                 //BROKEN
-                // tmp = Ccoords[i][j];
+                tmp = Ccoords[i][j];
 
-                // Ccoords[i][j] = NULL;
-                // Coords[i][j] = 0;
+                Ccoords[i][j] = NULL;
+                Coords[i][j] = 0;
             
-                // Ccoords[i][j+1] = tmp;
-                // Coords[i][j] = 1;
+                Ccoords[i][j+1] = tmp;
+                Coords[i][j+1] = 1;
             }
         }
     }
