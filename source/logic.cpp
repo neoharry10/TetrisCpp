@@ -289,6 +289,14 @@ void Grid::Draw(){
     for (int i = 0; i <= rt.x; i++){
         DrawLine(GstPos.x + i*dist, GstPos.y, GstPos.x + i*dist, GstPos.y + rt.y*Gscale, BLUE);
     }
+
+    char scoreText[100];
+    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
+
+
+    int xPos = GstPos.x + (rt.x/2 - 2) * Gscale;
+    int yPos = GstPos.y - 2*Gscale;
+    DrawText(scoreText, xPos, yPos, 20, WHITE);
 }
 
 void Grid::Tick(){
@@ -440,6 +448,16 @@ void Grid::CheckforPoints(){
 void Grid::ChangeScore(int l){
 
 
+    score += l*10;
+    
+    // int dist = Gscale;
+    // for (int i = 0; i <= rt.y; i++){
+    //     DrawLine(GstPos.x, GstPos.y + i*dist, GstPos.x + rt.x*Gscale, GstPos.y + i*dist, BLUE); 
+    // }
+
+    // for (int i = 0; i <= rt.x; i++){
+    //     DrawLine(GstPos.x + i*dist, GstPos.y, GstPos.x + i*dist, GstPos.y + rt.y*Gscale, BLUE);
+    // }
 
 } 
 
@@ -466,21 +484,6 @@ void Grid::Gravity(int l){
             }
         }
     }
-    
-    //REALLY BROKEN
-    // for(int i = 0; i < rt.x; i++){
-    //     for(int j = 0; j < rt.y; j++){
-
-    //         Coords[i][j] = 0;
-    //         Ccoords[i][j] = NULL;
-
-    //     }
-    // }  
-
-    // for(int i = 0; i < ap; i++){
-    //     UpdateGrid(*pieces[i]);
-    // } 
-
 
 }
 

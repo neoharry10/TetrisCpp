@@ -27,7 +27,7 @@ The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the us
 
 ## TODO
 
--> score
+
 -> Game Over screen 
 
 -> Main Menu ?
@@ -35,11 +35,10 @@ The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the us
 ## Doing
 
 
-- Score
 
 ## ERRORS 
 
-- Pieces clash on empty spaces sometimes
+- Pieces clash on empty spaces sometimes, "int** Coords" not updating correctly perhaps  
 
 
 ## Check Out 
