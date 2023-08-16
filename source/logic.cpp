@@ -256,6 +256,9 @@ Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
             Ccoords[x][y] = NULL;
         }
     }
+
+    xPos = GstPos.x + (rt.x/2 - 2) * Gscale;
+    yPos = GstPos.y - 2*Gscale;
 }
 
 
@@ -290,12 +293,8 @@ void Grid::Draw(){
         DrawLine(GstPos.x + i*dist, GstPos.y, GstPos.x + i*dist, GstPos.y + rt.y*Gscale, BLUE);
     }
 
-    char scoreText[100];
+
     snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
-
-
-    int xPos = GstPos.x + (rt.x/2 - 2) * Gscale;
-    int yPos = GstPos.y - 2*Gscale;
     DrawText(scoreText, xPos, yPos, 20, WHITE);
 }
 

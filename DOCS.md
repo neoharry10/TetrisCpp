@@ -27,8 +27,8 @@ The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the us
 
 ## TODO
 
-
--> Game Over screen 
+-> screens, menu, different game over  
+-> Game Over 
 
 -> Main Menu ?
 

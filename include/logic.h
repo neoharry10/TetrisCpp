@@ -112,7 +112,9 @@ class Grid {
 	int ap;
 
     //the game score
-    int score;
+    int score, xPos, yPos;
+
+    char scoreText[100];
 
     // used for the Down input 
     int tmp;
