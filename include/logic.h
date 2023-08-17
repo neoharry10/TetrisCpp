@@ -14,13 +14,7 @@ Vector2 GetLocalPos(Vector2 globalpos);
 //returns -1 if out of bounds
 Vector2 GetGlobalPos(Vector2 localpos);
 
-/*
-class Drawable {
 
-    public:
-        void Draw();
-};
-*/
 
 class Cube {
     Vector2 pos;
@@ -113,7 +107,6 @@ class Grid {
 
     //the game score
     int score, xPos, yPos;
-
     char scoreText[100];
 
     // used for the Down input 
