@@ -1,14 +1,19 @@
 # Notes
 
 ## Structure 
+- 3 States / Loop - Screens
+
+Menu, Game, GameOver 
+
+Menu is the welcome screen
+Game is the main screen
+GameOver is when you lose, get your score and select if you'll play again
+
+### Game Loop 
 
 - logic.h / logic.cpp
 
 All of the classes, helper functions 
-
-- Main loop 
-
-The tick function, of the grid, is upodated every '1.5'(updTime) secs to give the tetris effect
 
 - Coordinate system and positions
 
@@ -27,32 +32,25 @@ The grid has a ratio, x * y, used for the local grid. (0,x-1)*(0,y-1) are the us
 
 ## TODO
 
--> screens, menu, different game over  
 
--> Main Menu ?
+-> Leadboard ?
+-> Online ??
 
 ## Doing
 
--> Game Over , after screens ?
 
 
-## ERRORS 
+## ERRORS / UGS
 
-- Pieces clash on empty spaces sometimes, "int** Coords" not updating correctly perhaps  
+- ( Pieces clash on empty spaces sometimes, "int** Coords" not updating correctly perhaps )
 
 
-## Check Out 
 
-## Plan
 
-Menu :
-    menu.h menu.cpp
+# Releases
 
-menu.cpp :
-    menu loop
+## Current : V1
 
-Game :
-    game.h game.cpp
+## V1 
 
-game.cpp :
-    game loop
+-> All the functionality of a game that is similar to tetris

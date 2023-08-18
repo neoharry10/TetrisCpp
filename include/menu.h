@@ -9,9 +9,6 @@ enum States {
 
 extern States GameSt;
 
-void MenuStart();
-
-
 class Button {
 private:
     Rectangle bounds;
@@ -25,3 +22,21 @@ public:
     bool IsClicked();
     bool IsMouseOver();
 };
+
+/*
+class Menu{
+
+    Button* buttons;
+    int bCC;    
+public:
+
+    Menu(*buttons);
+
+    void Draw(){
+        for(int i = 0; i < bCC; i++){
+            buttons[i].Draw();
+        }
+    }
+
+}
+*/

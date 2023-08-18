@@ -233,6 +233,7 @@ Grid::Grid(Vector2 ratio, int mx): rt(ratio), MaxPieces(mx){
     ap = 0;
     tmp = 0;
     score = 0;
+    isGO = false;
 
     Coords = new int*[(int)ratio.x];
     for (int i = 0; i < ratio.x; i++){
@@ -322,6 +323,14 @@ bool Grid::CheckforCol(Piece p){
 
     int floorCord = rt.y;
     for(int i = 0; i < 4; i++){
+
+        //Hit Ceiling
+        if((pos[i].y == 0 || pos[i].y == 1) && Coords[(int)pos[i].x][(int)pos[i].y + 1]){
+            delete[] pos;
+            isGO = true;
+            return true; //Will never be called 
+        }
+
         //Hit other pieces 
         if( Coords[(int)pos[i].x][(int)pos[i].y + 1] ||
         //Hit floor 
@@ -345,7 +354,6 @@ void Grid::UpdateGrid(Piece p){
             Coords[(int)pos[i].x][(int)pos[i].y] = 1;
             Ccoords[(int)pos[i].x][(int)pos[i].y] = p.GetCube(i);
         }
-
     }
 
     delete[] pos;
@@ -439,7 +447,6 @@ void Grid::CheckforPoints(){
 
     if(lines){
 
-        //std::cout << "Lines : " << lines << std::endl;
         ChangeScore(lines);
     }
 }
@@ -448,17 +455,12 @@ void Grid::ChangeScore(int l){
 
 
     score += l*10;
-    
-    // int dist = Gscale;
-    // for (int i = 0; i <= rt.y; i++){
-    //     DrawLine(GstPos.x, GstPos.y + i*dist, GstPos.x + rt.x*Gscale, GstPos.y + i*dist, BLUE); 
-    // }
-
-    // for (int i = 0; i <= rt.x; i++){
-    //     DrawLine(GstPos.x + i*dist, GstPos.y, GstPos.x + i*dist, GstPos.y + rt.y*Gscale, BLUE);
-    // }
 
 } 
+
+int Grid::GetScore(){
+    return score;
+}
 
 void Grid::Gravity(int l){
 
@@ -472,7 +474,6 @@ void Grid::Gravity(int l){
 
                 Ccoords[i][j]->Move();
 
-                //BROKEN
                 tmp = Ccoords[i][j];
 
                 Ccoords[i][j] = NULL;
@@ -486,6 +487,10 @@ void Grid::Gravity(int l){
 
 }
 
+bool Grid::isGameOver(){
+    return isGO;
+}
+
 Vector2 GetLocalPos(Vector2 pos){
 
     pos.x -= GstPos.x;
@@ -497,11 +502,6 @@ Vector2 GetLocalPos(Vector2 pos){
 }
 
 Vector2 GetGlobalPos(Vector2 pos){
-    //sps[i].x *= Gscale;
-        //sps[i].y *= Gscale;
-
-        //sps[i].x += GstPos.x + offset;
-        //sps[i].y += GstPos.y;
 
     pos.x *= Gscale;
     pos.y *= Gscale;

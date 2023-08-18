@@ -115,6 +115,9 @@ class Grid {
     // used for the spawning of the pieces
     bool col;
 
+    //Game over variable, when true it finishes this game session
+    bool isGO;
+
 public:
     //Grid();
     Grid(Vector2 ratio, int mx); 
@@ -151,6 +154,12 @@ public:
     //Adds to score depending on the lines that are filled (1 for 1 line, 2 for 2 , ...)
     void ChangeScore(int);
 
+    //Returns the final score
+    int GetScore();
+
     //Given the y of the line deleted, it moves the above cubes down
     void Gravity(int);
+
+    //Informs the game loop that its game over
+    bool isGameOver();
 };

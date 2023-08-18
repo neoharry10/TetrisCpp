@@ -20,7 +20,35 @@ States GameSt = Menu;
 int Piece::offset = 0;
 
 
-void GameLoop(){
+void MenuLoop(){
+
+	int buttonWidth = 300, buttonHeight = 50;
+
+	float buttonX = (GetScreenWidth() - buttonWidth) / 2;
+	float buttonY = (GetScreenHeight() - buttonHeight) / 2;
+	Button st = Button(buttonX, buttonY, buttonWidth, buttonHeight, "Start");
+
+	while (!WindowShouldClose()){
+
+		if(st.IsClicked()){
+			GameSt = Game;
+			break;
+		}
+
+		BeginDrawing();
+		
+		DrawFPS(10, 10);
+		ClearBackground(BLACK);
+
+		st.Draw();
+		DrawText("Close the game using 'ESC'", buttonX, buttonY - 50, 20, WHITE);
+
+		EndDrawing();
+
+	}
+}
+
+int GameLoop(){
 
 	const int MaxPieces = 200;
 	Grid mainGrid(Gratio, MaxPieces);
@@ -29,7 +57,8 @@ void GameLoop(){
 	int updTime = 1;
 
 	//	Main game loop
-	while (!WindowShouldClose() && GameSt == Game){
+	while (!WindowShouldClose()){
+
 
 		time = GetTime();
 		if(time - prevtime >= updTime){
@@ -49,18 +78,34 @@ void GameLoop(){
 		mainGrid.Draw();
 
 		EndDrawing();
+		
+		if(mainGrid.isGameOver()){
+			GameSt = Over;
+			break;
+		}
+
 	}
 
+	return mainGrid.GetScore();
 }
 
 
-void MenuLoop(){
-	Button st = Button(GetScreenWidth()/2, GetScreenHeight()/2, 300, 50, "Start");
+void GameOverLoop(int Score){
+ 	
+	int buttonWidth = 300, buttonHeight = 50;
+	float buttonX = (GetScreenWidth() - buttonWidth) / 2;
+	float buttonY = (GetScreenHeight() - buttonHeight) / 2;
+    
+    char scoreText[100];
+    snprintf(scoreText, sizeof(scoreText), "Final Score: %d", Score);
 
-	while (!WindowShouldClose() && GameSt == Menu){
+	Button st = Button(buttonX, buttonY, buttonWidth, buttonHeight, "Play Again");
+
+	while (!WindowShouldClose()){
 
 		if(st.IsClicked()){
-			std::cout << "Pressed Start \n";
+			GameSt = Game;
+			break;
 		}
 
 		BeginDrawing();
@@ -69,13 +114,11 @@ void MenuLoop(){
 		ClearBackground(BLACK);
 
 		st.Draw();
+    	DrawText(scoreText, buttonX, buttonY - 50, 20, WHITE);
 
 		EndDrawing();
+
 	}
-}
-
-void GameOverLoop(){
-
 }
 
 
@@ -109,24 +152,18 @@ int main(){
 
 	MenuLoop();
 
-	MenuStart();
-	// while(!WindowShouldClose()){
+	int score;
 
-	// 	switch (GameSt){
-	// 		case Menu:
-	// 			MenuLoop();
-	// 			break;
-	// 		case Game:
-	// 			GameLoop();
-	// 			break;
-	// 		case Over:
-	//			GameOverLoop();
-	// 			break;
-			
-	// 		default:
-	// 			break;
-	// 	}
-	// }
+	while(!WindowShouldClose()){
+
+
+		if(GameSt == Game){
+			score = GameLoop();
+		}
+		else if(GameSt == Over){
+			GameOverLoop(score);
+		}
+	}
 
 	return 0;
 }
